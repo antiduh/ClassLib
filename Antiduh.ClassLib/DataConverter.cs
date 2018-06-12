@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Antiduh.ClassLib
 {
@@ -33,7 +29,7 @@ namespace Antiduh.ClassLib
         }
 
         /// <summary>
-        /// Reads a 32-bit signed integer from a byte array that has the value stored in
+        /// Reads a 32-bit signed integer from a byte array storing the value in
         /// little-endian format. 4 bytes are read from the array.
         /// </summary>
         /// <param name="data">The array to read from.</param>
@@ -45,12 +41,12 @@ namespace Antiduh.ClassLib
                 throw new ArgumentException( "The provided array is not large enough to read the value." );
             }
 
-            int value = 0;
+            int value;
 
             value = data[start + 0];
             value |= data[start + 1] << 8;
             value |= data[start + 2] << 16;
-            value |= data[start + 3] << 24; 
+            value |= data[start + 3] << 24;
 
             return value;
         }
@@ -70,5 +66,72 @@ namespace Antiduh.ClassLib
             return data;
         }
 
+        /// <summary>
+        /// Writes a 64-bit signed integer to the given byte array in little-endian format. 8 bytes
+        /// are written to the array.
+        /// </summary>
+        /// <param name="value">The value to write to the byte array.</param>
+        /// <param name="data">The array to write to.</param>
+        /// <param name="start">The first index in the array to write to.</param>
+        public static void WriteLongLE( long value, byte[] data, int start )
+        {
+            if( data.Length - start < 4 )
+            {
+                throw new ArgumentException( "The provided array is not large enough to store the result." );
+            }
+
+            data[start + 0] = (byte)( value >> 0 );
+            data[start + 1] = (byte)( value >> 8 );
+            data[start + 2] = (byte)( value >> 16 );
+            data[start + 3] = (byte)( value >> 24 );
+
+            data[start + 4] = (byte)( value >> 32 );
+            data[start + 5] = (byte)( value >> 40 );
+            data[start + 6] = (byte)( value >> 48 );
+            data[start + 7] = (byte)( value >> 56 );
+        }
+
+        /// <summary>
+        /// Reads a 64-bit signed integer from a byte array storing the value in
+        /// little-endian format. 8 bytes are read from the array.
+        /// </summary>
+        /// <param name="data">The array to read from.</param>
+        /// <param name="start">The first index in the array to read from.</param>
+        public static long ReadLongLE( byte[] data, int start )
+        {
+            if( data.Length - start < 4 )
+            {
+                throw new ArgumentException( "The provided array is not large enough to read the value." );
+            }
+
+            long value;
+
+            value = (long)data[start + 0];
+            value += (long)data[start + 1] << 8;
+            value += (long)data[start + 2] << 16;
+            value += (long)data[start + 3] << 24;
+
+            value += (long)data[start + 4] << 32;
+            value += (long)data[start + 5] << 40;
+            value += (long)data[start + 6] << 48;
+            value += (long)data[start + 7] << 56;
+
+            return value;
+        }
+
+        /// <summary>
+        /// Returns the bytes representing the value of the given 32-bit signed integer stored in
+        /// little-endian format. 8 bytes are returned.
+        /// </summary>
+        /// <param name="value">The value to convert to a little-endian bytes.</param>
+        /// <returns></returns>
+        public static byte[] GetLongBytesLE( long value )
+        {
+            byte[] data = new byte[8];
+
+            WriteLongLE( value, data, 0 );
+
+            return data;
+        }
     }
 }

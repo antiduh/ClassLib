@@ -50,8 +50,15 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="DataConverterTests.cs" />
+    <Compile Include="Harness\Assert2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Antiduh.ClassLib\Antiduh.ClassLib.csproj">
+      <Project>{4CC51BDE-BCA1-4C4A-846C-7D5EE85DE87B}</Project>
+      <Name>Antiduh.ClassLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Antiduh.ClassLib", "Antiduh.ClassLib\Antiduh.ClassLib.csproj", "{4CC51BDE-BCA1-4C4A-846C-7D5EE85DE87B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Antiduh.ClassLib.Test", "Antiduh.ClassLib.Test\Antiduh.ClassLib.Test.csproj", "{B3BC5238-5EC9-4C44-8790-DAC31B4072A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4CC51BDE-BCA1-4C4A-846C-7D5EE85DE87B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CC51BDE-BCA1-4C4A-846C-7D5EE85DE87B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CC51BDE-BCA1-4C4A-846C-7D5EE85DE87B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3BC5238-5EC9-4C44-8790-DAC31B4072A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3BC5238-5EC9-4C44-8790-DAC31B4072A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3BC5238-5EC9-4C44-8790-DAC31B4072A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3BC5238-5EC9-4C44-8790-DAC31B4072A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,5 @@
 ﻿using System;
-using Antiduh.ClassLib;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Antiduh.ClassLib.Test
@@ -29,6 +29,74 @@ namespace Antiduh.ClassLib.Test
             Assert2.Throws<ArgumentException>( () => DataConverter.ReadIntLE( small, 0 ) );
             Assert2.Throws<ArgumentException>( () => DataConverter.ReadIntLE( exact, 1 ) );
             Assert2.Throws<ArgumentException>( () => DataConverter.ReadIntLE( large, 2 ) );
+        }
+
+        [TestMethod]
+        public void DataConverter_WriteIntLE_KnownVectors()
+        {
+            var vectors = new Dictionary<int, byte[]>
+            {
+                { 0, new byte[] { 0,0,0,0 } },
+                { 1, new byte[] { 1,0,0,0 } },
+                { unchecked( (int)0xDEADBEEF ), new byte[] { 0xEF,0xBE,0xAD,0xDE } },
+                { int.MinValue, new byte[] {0, 0, 0, 128 } },
+                { int.MaxValue, new byte[] {0xFF, 0xFF, 0xFF, 0x7F } }
+            };
+
+            byte[] data = new byte[4];
+
+            foreach( int key in vectors.Keys )
+            {
+                Array.Clear( data, 0, data.Length );
+
+                DataConverter.WriteIntLE( key, data, 0 );
+
+                Assert.IsTrue( CompareArrays( data, vectors[key] ) );
+            }
+        }
+
+        [TestMethod]
+        public void DataConverter_IntLE_RoundTrip()
+        {
+            var vectors = new Dictionary<int, byte[]>
+            {
+                { 0, new byte[] { 0,0,0,0 } },
+                { 1, new byte[] { 1,0,0,0 } },
+                { unchecked( (int)0xDEADBEEF ), new byte[] { 0xEF,0xBE,0xAD,0xDE } },
+                { int.MinValue, new byte[] {0, 0, 0, 128 } },
+                { int.MaxValue, new byte[] {0xFF, 0xFF, 0xFF, 0x7F } }
+            };
+
+            byte[] data = new byte[4];
+
+            foreach( int key in vectors.Keys )
+            {
+                Array.Clear( data, 0, data.Length );
+
+                DataConverter.WriteIntLE( key, data, 0 );
+
+                int test = DataConverter.ReadIntLE( data, 0 );
+
+                Assert.AreEqual( key, test );
+            }
+        }
+
+        private bool CompareArrays<T>( T[] left, T[] right )
+        {
+            if( left.Length != right.Length )
+            {
+                throw new ArgumentException( "Arrays must be of equal length." );
+            }
+
+            for( int i = 0; i < left.Length; i++ )
+            {
+                if( left[i].Equals( right[i] ) == false )
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

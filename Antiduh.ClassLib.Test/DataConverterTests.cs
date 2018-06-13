@@ -51,7 +51,7 @@ namespace Antiduh.ClassLib.Test
 
                 DataConverter.WriteIntLE( key, data, 0 );
 
-                Assert.IsTrue( CompareArrays( data, vectors[key] ) );
+                Assert.IsTrue( Array2.CompareArrays( data, vectors[key] ) );
             }
         }
 
@@ -81,22 +81,5 @@ namespace Antiduh.ClassLib.Test
             }
         }
 
-        private bool CompareArrays<T>( T[] left, T[] right )
-        {
-            if( left.Length != right.Length )
-            {
-                throw new ArgumentException( "Arrays must be of equal length." );
-            }
-
-            for( int i = 0; i < left.Length; i++ )
-            {
-                if( left[i].Equals( right[i] ) == false )
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
     }
 }

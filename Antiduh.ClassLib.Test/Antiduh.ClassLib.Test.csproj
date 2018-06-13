@@ -51,6 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DataConverterTests.cs" />
+    <Compile Include="Harness\Array2.cs" />
     <Compile Include="Harness\Assert2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -141,14 +141,14 @@ namespace Antiduh.ClassLib
             long value;
 
             value = (long)data[start + 0];
-            value += (long)data[start + 1] << 8;
-            value += (long)data[start + 2] << 16;
-            value += (long)data[start + 3] << 24;
+            value |= (long)data[start + 1] << 8;
+            value |= (long)data[start + 2] << 16;
+            value |= (long)data[start + 3] << 24;
 
-            value += (long)data[start + 4] << 32;
-            value += (long)data[start + 5] << 40;
-            value += (long)data[start + 6] << 48;
-            value += (long)data[start + 7] << 56;
+            value |= (long)data[start + 4] << 32;
+            value |= (long)data[start + 5] << 40;
+            value |= (long)data[start + 6] << 48;
+            value |= (long)data[start + 7] << 56;
 
             return value;
         }

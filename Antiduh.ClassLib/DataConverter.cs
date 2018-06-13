@@ -328,6 +328,58 @@ namespace Antiduh.ClassLib
             return data;
         }
 
+        /// <summary>
+        /// Writes the 128-bit decimal value to the given byte array in little-endian format. 16
+        /// bytes are written to the array.
+        /// </summary>
+        /// <remarks>
+        /// The native, portable serialization format of the decimal type as specified by Microsoft
+        /// is to return four 32-bit signed integers. This implementation simply serializes decimals
+        /// by serializing those 4 32-bit integers in little endian format as if they were any other
+        /// 32-bit signed integer.
+        /// </remarks>
+        /// <param name="value">The decimal to serialize.</param>
+        /// <param name="data">The byte array to store the decimal's value in.</param>
+        /// <param name="start">The first index in the byte array to write to.</param>
+        public static void WriteDecimalLE( decimal value, byte[] data, int start )
+        {
+            CheckWriteSize( data, start, 16 );
+
+            int[] decimalBits = decimal.GetBits( value );
+
+            for( int i = 0; i < 4; i++ )
+            {
+                WriteIntLE( decimalBits[i], data, start + i * 4 );
+            }
+        }
+
+        /// <summary>
+        /// Reads a 128-bit decimal value from a byte array storing the value in little endian
+        /// format. 16 bytes are read from the array.
+        /// </summary>
+        /// <remarks>
+        /// The native, portable serialization format of the decimal type as specified by Microsoft
+        /// is to return four 32-bit signed integers. This implementation simply deserializes
+        /// decimals by deserializing those 4 32-bit integers in little endian format as if they were
+        /// any integer.
+        /// </remarks>
+        /// <param name="value">The decimal to deserialize.</param>
+        /// <param name="data">The byte array to read the decimal's value from.</param>
+        /// <param name="start">The first index in the byte array to read from.</param>
+        public static decimal ReadDecimalLE( byte[] data, int start )
+        {
+            CheckReadSize( data, start, 16 );
+
+            int[] decimalBits = new int[4];
+
+            for( int i = 0; i < 4; i++ )
+            {
+                decimalBits[i] = ReadIntLE( data, start + i * 4 );
+            }
+
+            return new decimal( decimalBits );
+        }
+
         private static void CheckWriteSize( byte[] data, int start, int neededSize )
         {
             if( data.Length - start < neededSize )

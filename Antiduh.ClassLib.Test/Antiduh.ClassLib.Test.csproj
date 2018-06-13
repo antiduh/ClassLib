@@ -55,6 +55,7 @@
     <Compile Include="DataConverter\DataConverterTests_Int.cs" />
     <Compile Include="DataConverter\DataConverterTests_Short.cs" />
     <Compile Include="DataConverter\DataConverterTests_Long.cs" />
+    <Compile Include="DataConverter\DataConverterTests_Decimal.cs" />
     <Compile Include="Harness\Array2.cs" />
     <Compile Include="Harness\Assert2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

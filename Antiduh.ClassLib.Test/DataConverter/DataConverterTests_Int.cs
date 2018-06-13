@@ -5,8 +5,18 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Antiduh.ClassLib.Test
 {
     [TestClass]
-    public class DataConverterTests
+    public class DataConverterTests_Int
     {
+        Dictionary<int, byte[]> vectors = new Dictionary<int, byte[]>
+        {
+            { 0, new byte[] { 0,0,0,0 } },
+            { 1, new byte[] { 1,0,0,0 } },
+            { -1, new byte[] { 0xFF,0xFF,0xFF,0xFF } },
+            { unchecked( (int)0xDEADBEEF ), new byte[] { 0xEF,0xBE,0xAD,0xDE } },
+            { int.MinValue, new byte[] {0, 0, 0, 128 } },
+            { int.MaxValue, new byte[] {0xFF, 0xFF, 0xFF, 0x7F } }
+        };
+
         [TestMethod]
         public void DataConverter_WriteIntLE_Rejects_InvalidBuffer()
         {
@@ -34,15 +44,6 @@ namespace Antiduh.ClassLib.Test
         [TestMethod]
         public void DataConverter_WriteIntLE_KnownVectors()
         {
-            var vectors = new Dictionary<int, byte[]>
-            {
-                { 0, new byte[] { 0,0,0,0 } },
-                { 1, new byte[] { 1,0,0,0 } },
-                { unchecked( (int)0xDEADBEEF ), new byte[] { 0xEF,0xBE,0xAD,0xDE } },
-                { int.MinValue, new byte[] {0, 0, 0, 128 } },
-                { int.MaxValue, new byte[] {0xFF, 0xFF, 0xFF, 0x7F } }
-            };
-
             byte[] data = new byte[4];
 
             foreach( int key in vectors.Keys )
@@ -58,15 +59,6 @@ namespace Antiduh.ClassLib.Test
         [TestMethod]
         public void DataConverter_IntLE_RoundTrip()
         {
-            var vectors = new Dictionary<int, byte[]>
-            {
-                { 0, new byte[] { 0,0,0,0 } },
-                { 1, new byte[] { 1,0,0,0 } },
-                { unchecked( (int)0xDEADBEEF ), new byte[] { 0xEF,0xBE,0xAD,0xDE } },
-                { int.MinValue, new byte[] {0, 0, 0, 128 } },
-                { int.MaxValue, new byte[] {0xFF, 0xFF, 0xFF, 0x7F } }
-            };
-
             byte[] data = new byte[4];
 
             foreach( int key in vectors.Keys )
@@ -80,6 +72,5 @@ namespace Antiduh.ClassLib.Test
                 Assert.AreEqual( key, test );
             }
         }
-
     }
 }

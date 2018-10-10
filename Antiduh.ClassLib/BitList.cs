@@ -10,6 +10,13 @@ namespace Antiduh.ClassLib
 {
     public class BitList : IEnumerable<bool>
     {
+        /// <summary>
+        /// Specifies the smallest amount of change in the data array's length - the array's length
+        /// will always be a multiple of this number. This is used to reduce the amount of memory
+        /// re-allocation churn that occurs when changing the length of the BitList.
+        /// </summary>
+        private const int arrayBlockSize = 1024;
+
         private int length;
 
         private byte[] data;
@@ -57,7 +64,10 @@ namespace Antiduh.ClassLib
                 this.data[i] = buffer[i];
             }
         }
-
+        
+        /// <summary>
+        /// Gets or sets the number of bits stored in the BitList.
+        /// </summary>
         public int Length
         {
             get
@@ -66,7 +76,34 @@ namespace Antiduh.ClassLib
             }
             set
             {
+                // If they're increasing the length of the bitlist, allocate more bytes. Easy.
+                //
+                // If they're decreasing the length of the BitList, it's a bit more complicated.
+                // - We might want to decrease the length of the array if they reduce the length by enough.
+                // - The last logical bit in the list might fall in the middle of the last remaining
+                //   byte, so we have to clear any set bits above the last logical index.
+                // - We're throwing away bits, so we have to count how many we're throwing away and
+                //   reduce `Count` appropriately.
 
+
+                int newLastIndex = length - 1;
+
+                if( value > this.length )
+                {
+                    EnsureCapacity( length - 1 );
+                }
+                else
+                {
+                    // We're shrinking the logical size. Keep in mind that we may or may not shrink
+                    // the array.
+
+                    int newArraySize = ArraySize( value );
+
+                    if( newArraySize < this.data.Length )
+                    {
+
+                    }
+                }
             }
         }
 
@@ -174,13 +211,19 @@ namespace Antiduh.ClassLib
         {
             if( requestedIndex >= this.length )
             {
-                int numBytes = BitsToBytes( requestedIndex + 1 );
-                byte[] newData = new byte[numBytes];
-
-                Array.Copy( this.data, newData, this.data.Length );
-
-                this.data = newData;
+                Array.Resize( ref this.data, ArraySize( requestedIndex + 1 ) );
             }
         }
+
+        private int ArraySize( int numBits )
+        {
+            int numBytes;
+            
+            numBytes = BitsToBytes( numBits );
+            numBytes = MathEx.RoundUpToMultiple( numBytes, arrayBlockSize );
+
+            return numBytes;
+        }
+
     }
 }

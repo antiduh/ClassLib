@@ -52,6 +52,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="MathExTests\MathEx_RoundUpMultiple.cs" />
     <Compile Include="DataConverter\DataConverterTests_Int.cs" />
     <Compile Include="DataConverter\DataConverterTests_Short.cs" />
     <Compile Include="DataConverter\DataConverterTests_Long.cs" />

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Antiduh.ClassLib
 {
@@ -35,7 +31,6 @@ namespace Antiduh.ClassLib
 
             return count;
         }
-
 
         public static int RoundUpToMultiple( int value, int multiple )
         {

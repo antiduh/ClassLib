@@ -101,6 +101,12 @@ namespace Antiduh.ClassLib
 
             this.tableIndexes.Add( index );
 
+            IIndexUpdate update = index;
+            foreach( var value in this.list )
+            {
+                update.Update( value );
+            }
+
             return index;
         }
 

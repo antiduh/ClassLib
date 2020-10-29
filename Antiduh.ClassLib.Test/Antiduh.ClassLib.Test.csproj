@@ -60,6 +60,7 @@
     <Compile Include="Harness\Array2.cs" />
     <Compile Include="Harness\Assert2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Table\TableTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Antiduh.ClassLib\Antiduh.ClassLib.csproj">

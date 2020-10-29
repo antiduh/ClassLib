@@ -98,6 +98,31 @@ namespace Antiduh.ClassLib.Test.Table
 
         }
 
+        /// <summary>
+        /// Demonstrates that the table can modify values at a given index; internally it does this
+        /// by removing the value a that index and adding the new value.
+        /// </summary>
+        [TestMethod]
+        public void Changing_Values_Requires_RemoveAndAdd()
+        {
+            var table = new Table<TestResult>();
+            var testIdsIndex = table.CreateIndex( result => result.TestId );
+
+            table.Add( new TestResult( "AUTO_1", "1.0", 1 ) );
+
+            table[0] = new TestResult( "AUTO_2", "2.0", 2 );
+
+            // Whole table should only have one record.
+            Assert.AreEqual( 1, table.Count );
+
+            // The index should only have one key.
+            Assert.AreEqual( 1, testIdsIndex.Count );
+
+            // The key should only have one value, and the value should point to the value-2 record.
+            Assert.AreEqual( 1, testIdsIndex["AUTO_2"].Count );
+            Assert.AreEqual( 2, testIdsIndex["AUTO_2"][0].Value );
+        }
+
         private class TestResult
         {
             public TestResult( string testId, string version, int value )

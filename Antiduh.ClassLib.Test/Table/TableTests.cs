@@ -80,6 +80,24 @@ namespace Antiduh.ClassLib.Test.Table
             Assert.AreEqual( 2, testIdsIndex["AUTO_2"][0].Value );
         }
 
+        [TestMethod]
+        public void Composite_Keys()
+        {
+            var table = new Table<TestResult>();
+            var resultIndex = table.CreateIndex( result => (result.TestId, result.Version) );
+
+            table.Add( new TestResult( "AUTO_1", "1.0", 1 ) );
+            table.Add( new TestResult( "AUTO_2", "1.0", 2 ) );
+            table.Add( new TestResult( "AUTO_1", "2.0", 3 ) );
+            table.Add( new TestResult( "AUTO_2", "2.0", 4 ) );
+
+            Assert.AreEqual( 1, resultIndex[("AUTO_1", "1.0")][0].Value );
+            Assert.AreEqual( 2, resultIndex[("AUTO_2", "1.0")][0].Value );
+            Assert.AreEqual( 3, resultIndex[("AUTO_1", "2.0")][0].Value );
+            Assert.AreEqual( 4, resultIndex[("AUTO_2", "2.0")][0].Value );
+
+        }
+
         private class TestResult
         {
             public TestResult( string testId, string version, int value )

@@ -11,12 +11,6 @@ namespace Antiduh.ClassLib
             private readonly Func<TVal, TKey> keySelector;
             private readonly Dictionary<TKey, IList<TVal>> map;
 
-            public IEnumerable<TKey> Keys => this.map.Keys;
-
-            public IEnumerable<IList<TVal>> Values => this.map.Values;
-
-            public int Count => throw new NotImplementedException();
-
             public TableIndex( Func<TVal, TKey> selector )
             {
                 this.keySelector = selector;
@@ -26,6 +20,12 @@ namespace Antiduh.ClassLib
             }
 
             public IList<TVal> this[TKey key] => this.map[key];
+
+            public IEnumerable<TKey> Keys => this.map.Keys;
+
+            public IEnumerable<IList<TVal>> Values => this.map.Values;
+
+            public int Count => this.map.Count;
 
             public bool ContainsKey( TKey key )
             {
